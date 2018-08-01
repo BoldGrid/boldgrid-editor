@@ -103,7 +103,7 @@
 		"npm-run-all": "^4.1.1",
 		"postcss-loader": "^2.0.6",
 		"resolve-url-loader": "^2.1.0",
-		"sass-loader": "^6.0.7",
+		"sass-loader": "^7.1.0",
 		"stylelint-config-standard": "^18.1.0",
 		"textselect": "^1.0.0",
 		"url-loader": "^1.0.0",
