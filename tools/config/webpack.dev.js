@@ -59,7 +59,13 @@ var webpackConfig = {
 			},
 			{
 				test: /\.js$/,
-				loader: 'babel-loader'
+				loader: 'babel-loader',
+				query: {
+                    plugins: [
+						'@babel/plugin-proposal-export-default-from',
+						'@babel/plugin-proposal-object-rest-spread'
+					]
+                }
 			},
 			{
 				test: /\.svg$/,

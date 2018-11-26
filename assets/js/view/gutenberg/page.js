@@ -1,10 +1,9 @@
-var __ = wp.i18n.__;
-var el = wp.element.createElement;
-var registerPlugin = wp.plugins.registerPlugin;
-
 import { EditorSelect } from '../../forms/editor-select';
 import { Loading } from '../loading';
 import './style.scss';
+
+const { PluginSidebarMoreMenuItem } = wp.editPost;
+const { registerPlugin } = wp.plugins;
 
 export class Page {
 	constructor() {
@@ -22,6 +21,8 @@ export class Page {
 	 * @since 1.9.0
 	 */
 	_onload() {
+		this._bindSidebarOpen();
+
 		this.registerPlugin( {
 			pluginName: 'bgppb',
 			type: 'bgppb',
@@ -45,6 +46,25 @@ export class Page {
 	}
 
 	/**
+	 * When the sidebar changes, check if it's one of our plugins..
+	 *
+	 * @since 1.9.0
+	 */
+	_bindSidebarOpen() {
+		wp.data.subscribe( ( e ) => {
+			let post = wp.data.select( 'core/edit-post' ),
+				isBgppb = post.isPluginSidebarOpened( 'bgppb' ),
+				isClassic = post.isPluginSidebarOpened( 'classic' );
+
+			if ( isBgppb ) {
+				this.editorSelect.changeType( 'bgppb' );
+			} else if ( isClassic ) {
+				this.editorSelect.changeType( 'classic' );
+			}
+		} );
+	}
+
+	/**
 	 * Add a new item to the gutenberg menu.
 	 *
 	 * @since 1.9.0
@@ -55,28 +75,10 @@ export class Page {
 		registerPlugin( configs.pluginName, {
 			icon: configs.icon || '',
 			render: () => {
-				return el(
-					wp.editPost.PluginSidebarMoreMenuItem,
-					{
-					},
-					[
-						el(
-							'span',
-							{
-							},
-							__( configs.label )
-						),
-						el(
-							'span',
-							{
-								className: 'editor-selector',
-								onClick: ( e ) => {
-									e.stopPropagation();
-									this.editorSelect.changeType( configs.type );
-								}
-							}
-						)
-					]
+				return (
+					<PluginSidebarMoreMenuItem target="${configs.pluginName}">
+						{configs.label}
+					</PluginSidebarMoreMenuItem>
 				);
 			}
 		} );
