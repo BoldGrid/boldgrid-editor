@@ -107,7 +107,7 @@
 		"stylelint-config-standard": "^18.1.0",
 		"textselect": "^1.0.0",
 		"url-loader": "^1.0.0",
-		"webpack": "^4.0.0",
+		"webpack": "^4.28.4",
 		"webpack-cli": "^2.0.12",
 		"webpack-dev-server": "^3.0.0",
 		"wowjs": "^1.1.3",
